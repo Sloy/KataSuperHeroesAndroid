@@ -120,7 +120,9 @@ public class MainActivityTest {
     }
 
     private SuperHero stubSuperHero(String name) {
-        return new SuperHero(name, "https://i.annihil.us/u/prod/marvel/i/mg/9/b0/537bc2375dfb9.jpg", true, "Lorem ipsum");
+        return new SuperHero(name,
+                "https://i.annihil.us/u/prod/marvel/i/mg/9/b0/537bc2375dfb9.jpg",
+                true, "Lorem ipsum");
     }
 
     private MainActivity startActivity() {
