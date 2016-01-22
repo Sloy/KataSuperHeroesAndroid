@@ -18,12 +18,16 @@ package com.karumi.katasuperheroes.di;
 
 import com.karumi.katasuperheroes.ui.view.MainActivity;
 import com.karumi.katasuperheroes.ui.view.SuperHeroDetailActivity;
-import dagger.Component;
+
 import javax.inject.Singleton;
 
-@Singleton @Component(modules = MainModule.class) public interface MainComponent {
+import dagger.Component;
 
-  void inject(MainActivity activity);
+@Singleton
+@Component(modules = MainModule.class)
+public interface MainComponent {
 
-  void inject(SuperHeroDetailActivity activity);
+    void inject(MainActivity activity);
+
+    void inject(SuperHeroDetailActivity activity);
 }

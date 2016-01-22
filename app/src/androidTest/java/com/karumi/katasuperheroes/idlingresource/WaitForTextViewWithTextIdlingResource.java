@@ -22,27 +22,30 @@ import android.widget.TextView;
 
 public class WaitForTextViewWithTextIdlingResource implements IdlingResource {
 
-  private final Activity activity;
-  private final int textViewId;
-  private final String expectedText;
+    private final Activity activity;
+    private final int textViewId;
+    private final String expectedText;
 
-  public WaitForTextViewWithTextIdlingResource(Activity activity, int viewId, String expectedText) {
-    this.activity = activity;
-    this.textViewId = viewId;
-    this.expectedText = expectedText;
-  }
+    public WaitForTextViewWithTextIdlingResource(Activity activity, int viewId, String expectedText) {
+        this.activity = activity;
+        this.textViewId = viewId;
+        this.expectedText = expectedText;
+    }
 
-  @Override public String getName() {
-    return "WaitForTextViewWithTextIdlingResource";
-  }
+    @Override
+    public String getName() {
+        return "WaitForTextViewWithTextIdlingResource";
+    }
 
-  @Override public boolean isIdleNow() {
-    TextView textView = (TextView) activity.findViewById(textViewId);
-    CharSequence text = textView.getText();
-    return expectedText.equals(text);
-  }
+    @Override
+    public boolean isIdleNow() {
+        TextView textView = (TextView) activity.findViewById(textViewId);
+        CharSequence text = textView.getText();
+        return expectedText.equals(text);
+    }
 
-  @Override public void registerIdleTransitionCallback(ResourceCallback callback) {
+    @Override
+    public void registerIdleTransitionCallback(ResourceCallback callback) {
 
-  }
+    }
 }

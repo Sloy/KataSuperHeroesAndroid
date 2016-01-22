@@ -22,75 +22,82 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.karumi.katasuperheroes.R;
 import com.karumi.katasuperheroes.SuperHeroesApplication;
 import com.karumi.katasuperheroes.model.SuperHero;
 import com.karumi.katasuperheroes.ui.presenter.SuperHeroDetailPresenter;
 import com.squareup.picasso.Picasso;
+
 import javax.inject.Inject;
 
 public class SuperHeroDetailActivity extends BaseActivity implements SuperHeroDetailPresenter.View {
 
-  private static final String SUPER_HERO_NAME_KEY = "super_hero_name_key";
+    private static final String SUPER_HERO_NAME_KEY = "super_hero_name_key";
 
-  @Inject SuperHeroDetailPresenter presenter;
+    @Inject
+    SuperHeroDetailPresenter presenter;
 
-  private ImageView superHeroPhotoImageView;
-  private TextView superHeroNameTextView;
-  private TextView superHeroDescriptionTextView;
-  private View avengersBadgeView;
+    private ImageView superHeroPhotoImageView;
+    private TextView superHeroNameTextView;
+    private TextView superHeroDescriptionTextView;
+    private View avengersBadgeView;
 
-  @Override protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    initializeDagger();
-    initializeSuperHeroView();
-    initializePresenter();
-  }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initializeDagger();
+        initializeSuperHeroView();
+        initializePresenter();
+    }
 
-  @Override public int getLayoutId() {
-    return R.layout.super_hero_detail_activity;
-  }
+    @Override
+    public int getLayoutId() {
+        return R.layout.super_hero_detail_activity;
+    }
 
-  @Override public void showSuperHero(SuperHero superHero) {
-    Picasso.with(this).load(superHero.getPhoto()).fit().centerCrop().into(superHeroPhotoImageView);
-    superHeroNameTextView.setText(superHero.getName());
-    superHeroDescriptionTextView.setText(superHero.getDescription());
-    int avengersBadgeVisibility = superHero.isAvenger() ? View.VISIBLE : View.GONE;
-    avengersBadgeView.setVisibility(avengersBadgeVisibility);
-  }
+    @Override
+    public void showSuperHero(SuperHero superHero) {
+        Picasso.with(this).load(superHero.getPhoto()).fit().centerCrop().into(superHeroPhotoImageView);
+        superHeroNameTextView.setText(superHero.getName());
+        superHeroDescriptionTextView.setText(superHero.getDescription());
+        int avengersBadgeVisibility = superHero.isAvenger() ? View.VISIBLE : View.GONE;
+        avengersBadgeView.setVisibility(avengersBadgeVisibility);
+    }
 
-  public static void open(Context context, String superHeroName) {
-    Intent intent = new Intent(context, SuperHeroDetailActivity.class);
-    intent.putExtra(SUPER_HERO_NAME_KEY, superHeroName);
-    context.startActivity(intent);
-  }
+    public static void open(Context context, String superHeroName) {
+        Intent intent = new Intent(context, SuperHeroDetailActivity.class);
+        intent.putExtra(SUPER_HERO_NAME_KEY, superHeroName);
+        context.startActivity(intent);
+    }
 
-  @Override protected void initializeToolbar() {
-    super.initializeToolbar();
-    String superHeroName = getSuperHeroName();
-    setTitle(superHeroName);
-  }
+    @Override
+    protected void initializeToolbar() {
+        super.initializeToolbar();
+        String superHeroName = getSuperHeroName();
+        setTitle(superHeroName);
+    }
 
-  private void initializeDagger() {
-    SuperHeroesApplication app = (SuperHeroesApplication) getApplication();
-    app.getMainComponent().inject(this);
-  }
+    private void initializeDagger() {
+        SuperHeroesApplication app = (SuperHeroesApplication) getApplication();
+        app.getMainComponent().inject(this);
+    }
 
-  private void initializeSuperHeroView() {
-    superHeroPhotoImageView = (ImageView) findViewById(R.id.iv_super_hero_photo);
-    superHeroNameTextView = (TextView) findViewById(R.id.tv_super_hero_name);
-    superHeroDescriptionTextView = (TextView) findViewById(R.id.tv_super_hero_description);
-    avengersBadgeView = findViewById(R.id.iv_avengers_badge);
-  }
+    private void initializeSuperHeroView() {
+        superHeroPhotoImageView = (ImageView) findViewById(R.id.iv_super_hero_photo);
+        superHeroNameTextView = (TextView) findViewById(R.id.tv_super_hero_name);
+        superHeroDescriptionTextView = (TextView) findViewById(R.id.tv_super_hero_description);
+        avengersBadgeView = findViewById(R.id.iv_avengers_badge);
+    }
 
-  private void initializePresenter() {
-    presenter.setView(this);
-    String name = getSuperHeroName();
-    presenter.setName(name);
-    presenter.initialize();
-  }
+    private void initializePresenter() {
+        presenter.setView(this);
+        String name = getSuperHeroName();
+        presenter.setName(name);
+        presenter.initialize();
+    }
 
-  private String getSuperHeroName() {
-    return getIntent().getExtras().getString(SUPER_HERO_NAME_KEY);
-  }
+    private String getSuperHeroName() {
+        return getIntent().getExtras().getString(SUPER_HERO_NAME_KEY);
+    }
 }

@@ -18,23 +18,26 @@ package com.karumi.katasuperheroes;
 
 import android.app.Application;
 import android.support.annotation.VisibleForTesting;
+
 import com.karumi.katasuperheroes.di.DaggerMainComponent;
 import com.karumi.katasuperheroes.di.MainComponent;
 
 public class SuperHeroesApplication extends Application {
 
-  private MainComponent mainComponent;
+    private MainComponent mainComponent;
 
-  @Override public void onCreate() {
-    super.onCreate();
-    mainComponent = DaggerMainComponent.create();
-  }
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        mainComponent = DaggerMainComponent.create();
+    }
 
-  public MainComponent getMainComponent() {
-    return mainComponent;
-  }
+    public MainComponent getMainComponent() {
+        return mainComponent;
+    }
 
-  @VisibleForTesting public void setComponent(MainComponent mainComponent) {
-    this.mainComponent = mainComponent;
-  }
+    @VisibleForTesting
+    public void setComponent(MainComponent mainComponent) {
+        this.mainComponent = mainComponent;
+    }
 }

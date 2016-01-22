@@ -20,43 +20,47 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+
 import com.karumi.katasuperheroes.R;
 import com.karumi.katasuperheroes.ui.presenter.Presenter;
 
 public abstract class BaseActivity extends AppCompatActivity implements Presenter.View {
 
-  private Toolbar toolbar;
-  private View loadingView;
+    private Toolbar toolbar;
+    private View loadingView;
 
-  @Override protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(getLayoutId());
-    initializeToolbar();
-    initializeLoadingView();
-  }
-
-  public abstract int getLayoutId();
-
-  @Override public void showLoading() {
-    if (loadingView != null) {
-      loadingView.setVisibility(View.VISIBLE);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(getLayoutId());
+        initializeToolbar();
+        initializeLoadingView();
     }
-  }
 
-  @Override public void hideLoading() {
-    if (loadingView != null) {
-      loadingView.setVisibility(View.GONE);
+    public abstract int getLayoutId();
+
+    @Override
+    public void showLoading() {
+        if (loadingView != null) {
+            loadingView.setVisibility(View.VISIBLE);
+        }
     }
-  }
 
-  protected void initializeToolbar() {
-    toolbar = (Toolbar) findViewById(R.id.toolbar);
-    if (toolbar != null) {
-      setSupportActionBar(toolbar);
+    @Override
+    public void hideLoading() {
+        if (loadingView != null) {
+            loadingView.setVisibility(View.GONE);
+        }
     }
-  }
 
-  protected void initializeLoadingView() {
-    loadingView = findViewById(R.id.progress_bar);
-  }
+    protected void initializeToolbar() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+        }
+    }
+
+    protected void initializeLoadingView() {
+        loadingView = findViewById(R.id.progress_bar);
+    }
 }

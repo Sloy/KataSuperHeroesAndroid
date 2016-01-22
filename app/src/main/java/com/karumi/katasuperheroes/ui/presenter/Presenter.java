@@ -18,29 +18,29 @@ package com.karumi.katasuperheroes.ui.presenter;
 
 public class Presenter<T extends Presenter.View> {
 
-  private T view;
+    private T view;
 
-  public void setView(T view) {
-    this.view = view;
-  }
+    public void setView(T view) {
+        this.view = view;
+    }
 
-  public T getView() {
-    return view;
-  }
+    public T getView() {
+        return view;
+    }
 
-  public void initialize() {
+    public void initialize() {
 
-  }
+    }
 
-  public void update() {
+    public void update() {
 
-  }
+    }
 
-  public interface View {
+    public interface View {
 
-    void showLoading();
+        void showLoading();
 
-    void hideLoading();
+        void hideLoading();
 
-  }
+    }
 }

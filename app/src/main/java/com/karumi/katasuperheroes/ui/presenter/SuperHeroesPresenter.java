@@ -18,44 +18,49 @@ package com.karumi.katasuperheroes.ui.presenter;
 
 import com.karumi.katasuperheroes.model.SuperHero;
 import com.karumi.katasuperheroes.usecase.GetSuperHeroes;
+
 import java.util.List;
+
 import javax.inject.Inject;
 
 public class SuperHeroesPresenter extends Presenter<SuperHeroesPresenter.View> {
 
-  private final GetSuperHeroes getSuperHeroes;
+    private final GetSuperHeroes getSuperHeroes;
 
-  @Inject public SuperHeroesPresenter(GetSuperHeroes getSuperHeroes) {
-    this.getSuperHeroes = getSuperHeroes;
-  }
+    @Inject
+    public SuperHeroesPresenter(GetSuperHeroes getSuperHeroes) {
+        this.getSuperHeroes = getSuperHeroes;
+    }
 
-  @Override public void initialize() {
-    super.initialize();
-    getSuperHeroes.getAll(new GetSuperHeroes.Callback() {
-      @Override public void onSuperHeroesLoaded(List<SuperHero> superHeroes) {
-        View view = getView();
-        view.hideLoading();
-        if (superHeroes.isEmpty()) {
-          view.showEmptyCase();
-        } else {
-          view.showSuperHeroes(superHeroes);
-        }
-      }
-    });
-  }
+    @Override
+    public void initialize() {
+        super.initialize();
+        getSuperHeroes.getAll(new GetSuperHeroes.Callback() {
+            @Override
+            public void onSuperHeroesLoaded(List<SuperHero> superHeroes) {
+                View view = getView();
+                view.hideLoading();
+                if (superHeroes.isEmpty()) {
+                    view.showEmptyCase();
+                } else {
+                    view.showSuperHeroes(superHeroes);
+                }
+            }
+        });
+    }
 
-  public void onSuperHeroClicked(SuperHero superHero) {
-    getView().openSuperHeroScreen(superHero);
-  }
+    public void onSuperHeroClicked(SuperHero superHero) {
+        getView().openSuperHeroScreen(superHero);
+    }
 
-  public interface View extends Presenter.View {
+    public interface View extends Presenter.View {
 
-    void showEmptyCase();
+        void showEmptyCase();
 
-    void hideEmptyCase();
+        void hideEmptyCase();
 
-    void showSuperHeroes(List<SuperHero> superHeroes);
+        void showSuperHeroes(List<SuperHero> superHeroes);
 
-    void openSuperHeroScreen(SuperHero superHero);
-  }
+        void openSuperHeroScreen(SuperHero superHero);
+    }
 }

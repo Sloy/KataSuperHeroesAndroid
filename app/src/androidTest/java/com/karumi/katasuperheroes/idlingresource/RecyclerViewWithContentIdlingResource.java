@@ -22,28 +22,31 @@ import android.support.v7.widget.RecyclerView;
 
 public class RecyclerViewWithContentIdlingResource implements IdlingResource {
 
-  private final Activity activity;
-  private final int recyclerViewId;
-  private final int numberOfItems;
+    private final Activity activity;
+    private final int recyclerViewId;
+    private final int numberOfItems;
 
-  public RecyclerViewWithContentIdlingResource(Activity activity, int recyclerViewId,
-      int numberOfItems) {
-    this.activity = activity;
-    this.recyclerViewId = recyclerViewId;
-    this.numberOfItems = numberOfItems;
-  }
+    public RecyclerViewWithContentIdlingResource(Activity activity, int recyclerViewId,
+                                                 int numberOfItems) {
+        this.activity = activity;
+        this.recyclerViewId = recyclerViewId;
+        this.numberOfItems = numberOfItems;
+    }
 
-  @Override public String getName() {
-    return "RecyclerViewWithContentIdlingResource";
-  }
+    @Override
+    public String getName() {
+        return "RecyclerViewWithContentIdlingResource";
+    }
 
-  @Override public boolean isIdleNow() {
-    RecyclerView recyclerView = (RecyclerView) activity.findViewById(recyclerViewId);
-    int numberOfItemsInRecyclerView = recyclerView.getAdapter().getItemCount();
-    return numberOfItemsInRecyclerView == numberOfItems;
-  }
+    @Override
+    public boolean isIdleNow() {
+        RecyclerView recyclerView = (RecyclerView) activity.findViewById(recyclerViewId);
+        int numberOfItemsInRecyclerView = recyclerView.getAdapter().getItemCount();
+        return numberOfItemsInRecyclerView == numberOfItems;
+    }
 
-  @Override public void registerIdleTransitionCallback(ResourceCallback callback) {
+    @Override
+    public void registerIdleTransitionCallback(ResourceCallback callback) {
 
-  }
+    }
 }
