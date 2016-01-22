@@ -48,6 +48,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.karumi.katasuperheroes.matchers.RecyclerViewItemsCountMatcher.recyclerViewHasItemCount;
+import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
 import static org.mockito.Mockito.when;
 
@@ -119,6 +120,30 @@ public class MainActivityTest {
                 });
     }
 
+    @Test
+    public void rowsHavAvengerBadgeIfThereAreSomeAvengers() throws Exception {
+        givenThereAreSomeAvengers();
+        List<SuperHero> avengers = superHeroListOf(10, true);
+
+        startActivity();
+
+        RecyclerViewInteraction.<SuperHero>onRecyclerView(withId(R.id.recycler_view))
+                .withItems(avengers)
+                .check(new RecyclerViewInteraction.ItemViewAssertion<SuperHero>() {
+                    @Override
+                    public void check(SuperHero item, View view, NoMatchingViewException e) {
+                        matches(hasDescendant(allOf(
+                                withId(R.id.iv_avengers_badge),
+                                isDisplayed()
+                        ))).check(view, e);
+                    }
+                });
+    }
+
+    private void givenThereAreSomeAvengers() {
+        when(repository.getAll()).thenReturn(superHeroListOf(10, true));
+    }
+
     private void givenThereAreNoSuperHeroes() {
         when(repository.getAll()).thenReturn(Collections.<SuperHero>emptyList());
     }
@@ -132,17 +157,21 @@ public class MainActivityTest {
     }
 
     private List<SuperHero> superHeroListOf(int count) {
+        return superHeroListOf(count, true);
+    }
+
+    private List<SuperHero> superHeroListOf(int count, boolean isAvenger) {
         List<SuperHero> list = new ArrayList<>(count);
         for (int i = 0; i < count; i++) {
-            list.add(stubSuperHero("Super hero #" + i));
+            list.add(stubSuperHero("Super hero #" + i, isAvenger));
         }
         return list;
     }
 
-    private SuperHero stubSuperHero(String name) {
+    private SuperHero stubSuperHero(String name, boolean isAvenger) {
         return new SuperHero(name,
                 "https://i.annihil.us/u/prod/marvel/i/mg/9/b0/537bc2375dfb9.jpg",
-                true, "Lorem ipsum");
+                isAvenger, "Lorem ipsum");
     }
 
     private MainActivity startActivity() {
