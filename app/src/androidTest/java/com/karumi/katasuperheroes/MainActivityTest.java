@@ -32,7 +32,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import it.cosenonjaviste.daggermock.DaggerMockRule;
 
@@ -40,6 +42,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.not;
 import static org.mockito.Mockito.when;
 
 @RunWith(AndroidJUnit4.class)
@@ -76,8 +79,37 @@ public class MainActivityTest {
         onView(withText("¯\\_(ツ)_/¯")).check(matches(isDisplayed()));
     }
 
+    @Test
+    public void dontShowEmptyCaseIfThereAreSuperHeroes() throws Exception {
+        givenThereAreSomeSuperHeroes();
+
+        startActivity();
+
+        onView(withText("¯\\_(ツ)_/¯")).check(matches(not(isDisplayed())));
+
+    }
+
     private void givenThereAreNoSuperHeroes() {
         when(repository.getAll()).thenReturn(Collections.<SuperHero>emptyList());
+    }
+
+    private void givenThereAreSomeSuperHeroes() {
+        givenThereAreSomeSuperHeroes(10);
+    }
+    private void givenThereAreSomeSuperHeroes(int count) {
+        when(repository.getAll()).thenReturn(superHeroListOf(count));
+    }
+
+    private List<SuperHero> superHeroListOf(int count) {
+        List<SuperHero> list = new ArrayList<>(count);
+        for (int i = 0; i < count; i++) {
+            list.add(stubSuperHero("Super hero #" + i));
+        }
+        return list;
+    }
+
+    private SuperHero stubSuperHero(String name) {
+        return new SuperHero(name, "https://i.annihil.us/u/prod/marvel/i/mg/9/b0/537bc2375dfb9.jpg", true, "Lorem ipsum");
     }
 
     private MainActivity startActivity() {
